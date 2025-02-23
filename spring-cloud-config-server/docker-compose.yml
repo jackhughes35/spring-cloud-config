@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+  spring-cloud-config-server:
+    build: .
+    restart: always
+    image: local/spring-cloud-config-server:latest
+    ports:
+      - 8080:8080
+
+  kafka:
+    image: wurstmeister/kafka
+    command: [ start-kafka.sh ]
+    ports:
+      - 9092:9092
+    hostname: kafka
+    environment:
+      KAFKA_CREATE_TOPICS: "cloud-config-topic"
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    depends_on:
+      - zookeeper
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - 2181:2181
+    hostname: zookeeper

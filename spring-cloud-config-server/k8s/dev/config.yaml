@@ -1,0 +1,36 @@
+name: spring-cloud-config-server
+version: latest
+replicas: 3
+# image:
+#  repository: registry.gitlab.com/path/to/spring-cloud-config-server
+#  pullPolicy: Always
+ports:
+  - containerPort: 8080
+    protocol: TCP
+livenessProbe:
+  checkType: "HTTP"
+  httpGet:
+    path: "/actuator/info"
+    port: 8080
+    scheme: "HTTP"
+  initialDelaySeconds: 60
+  periodSeconds: 30
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 5
+
+resources:
+  cpu: "2000m"
+  memory: "1Gi"
+
+env:
+  SPRING_PROFILES_ACTIVE: dev
+  SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL: SSL
+  # SPRING_KAFKA_BOOTSTRAP-SERVERS: override with dev servers
+  LOGGING_CONFIG: classpath:logback-dev.xml
+  DD_AGENT_ARGS: -javaagent:/dd-java-agent.jar
+  DD_TRACE_ANALYTICS_ENABLED: true
+  DD_LOGS_INJECTION: true
+  MANAGEMENT_METRICS_EXPORT_STATSD_HOST: $(DD_AGENT_HOST)
+  MANAGEMENT_METRICS_EXPORT_STATSD_PORT: 8125
+  JAVA_OPTS: -Xms512m -Xmx900m

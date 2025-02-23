@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="9.3">
+<file name="/Users/jackhughes/HnBI/fufilment/oms-spring-cloud-config-server/src/main/java/com/hbi/oms/cloud/configserver/ConfigurationServerApplication.java">
+</file>
+<file name="/Users/jackhughes/HnBI/fufilment/oms-spring-cloud-config-server/src/test/java/com/hbi/oms/cloud/configserver/ConfigurationServerApplicationTest.java">
+</file>
+</checkstyle>
